@@ -2437,7 +2437,10 @@ class AbstractResource(ResourcePermissionsMixin, ResourceIRODSMixin):
     @property
     def storage_type(self):
         if not self.is_federated:
-            return 'local'
+            if self.storage_code == StorageCodes.IRODS: 
+                return 'local'
+            else: 
+                return 'linux' 
         userpath = '/' + os.path.join(
             getattr(settings, 'HS_USER_IRODS_ZONE', 'hydroshareuserZone'),
             'home',
@@ -2552,6 +2555,35 @@ class FedStorage(IrodsStorage):
         super(FedStorage, self).__init__("federated")
 
 
+class StorageCodes(object):
+    """
+    Storage codes describe where a resource is stored 
+    Storage type is a numeric code 1-3:
+
+        * 0 or StorageCodes.NONE:
+            the user has no privilege over the object.
+
+        * 1 or StorageCodes.IRODS:
+            stored in local iRODS.
+
+        * 2 or StorageCodes.IRFED:
+            stored in remote (federated) iRODS
+
+        * 3 or StorageCodes.LINUX:
+            stored in local linux
+
+    """
+    # NONE  = 0
+    IRODS = 1
+    IRFED = 2
+    LINUX = 3
+    CHOICES = (
+        (IRODS, 'iRODS local'),
+        (IRFED, 'iRODS federated'),
+        (LINUX, 'Linux local')
+        # (NONE, 'None') : disallow "no privilege" lines
+    )
+
 # TODO: revise path logic for rename_resource_file_in_django for proper path.
 # TODO: utilize antibugging to check that paths are coherent after each operation.
 class ResourceFile(ResourceFileIRODSMixin):
@@ -2561,6 +2593,7 @@ class ResourceFile(ResourceFileIRODSMixin):
     class Meta:
         index_together = [['object_id', 'resource_file'],
                           ['object_id', 'fed_resource_file'],
+                          ['object_id', 'linux_resource_file'],
                           ]
     # A ResourceFile is a sub-object of a resource, which can have several types.
     object_id = models.PositiveIntegerField()
@@ -2572,10 +2605,15 @@ class ResourceFile(ResourceFileIRODSMixin):
     file_folder = models.CharField(max_length=4096, null=True)
 
     # This pair of FileFields deals with the fact that there are two kinds of storage
+    storage_code = models.IntegerField(choices=StorageCodes.CHOICES,
+                                       editable=False,
+                                       default=StorageCodes.IRODS)
     resource_file = models.FileField(upload_to=get_path, max_length=4096,
                                      null=True, blank=True, storage=IrodsStorage())
     fed_resource_file = models.FileField(upload_to=get_path, max_length=4096,
                                          null=True, blank=True, storage=FedStorage())
+    linux_resource_file = models.FileField(upload_to=get_path, max_length=4096, 
+                                           null=True, blank=True, storage=LinuxStorage())
 
     # DEPRECATED: utilize resfile.set_storage_path(path) and resfile.storage_path.
     # fed_resource_file_name_or_path = models.CharField(max_length=255, null=True, blank=True)
@@ -3215,16 +3253,21 @@ class BaseResource(Page, AbstractResource):
 
     def get_irods_storage(self):
         """Return either IrodsStorage or FedStorage."""
-        if self.resource_federation_path:
-            return FedStorage()
-        else:
-            return IrodsStorage()
+            if self.storage_code == StorageCodes.IRODS: 
+                return IrodsStorage()
+            elif self.storage_code == StorageCodes.IRFED: 
+                return FedStorage()
+            elif self.storage_code == StorageCodes.LINUX: 
+                return LinuxStorage()
+            else: 
+                raise ValueError("incorrect storage type encountered") 
 
     @property
     def is_federated(self):
         """Return existence of resource_federation_path."""
-        return self.resource_federation_path is not None and \
-            self.resource_federation_path != ''
+        return self.storage_code == StorageCodes.IRFED
+        # return self.resource_federation_path is not None and \
+        #     self.resource_federation_path != ''
 
     # Paths relative to the resource
     @property
