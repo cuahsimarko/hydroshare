@@ -31,12 +31,45 @@ class LinuxStorage():
 		return self.open(irods_name, mode="rb")
 	
 	def runBagitRule(self, rule_name, input_path, input_resouce):
-                self.zipup(input_resouce, input_path)
+		os.chdir(input_path)
+		os.makedirs("data")
+		self.copyFiles(input_resource, os.path.join(os.getcwd(), "data"))
+	
+		file = open("manifest-md5.txt", "w+")
+		for subdir, dirs, files in os.walk(dir):
+			for file in files:
+				filename = os.path.join(subdir, file)
+				file.write( self.md5_checksum(filename) + "    " +filename)
+		file.close()
 
-        def zipup(self, input_name, output_name):
+		file = open( "bagit.txt", "w+")
+		file.write("BagIt-Version: 0.96\nTag-File-Character-Encoding: UTF-8\n")
+		file.close()
+	
+		file = open("README.txt", "w+")
+		file.write(README_TEXT)
+		file.close()
+	
+		file = open("tagmanifest-md5.txt", "w+")
+		files = [os.path.join(dir, f) for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
+		for file in files:
+			file.write( self.md5_checksum(file) + "    " + file)
+                
+                output_path = input_path.split("/", 1)[1] + "/bags/" + input_path.split("/", 1)[0] + ".zip"
+		self.zipup( input_path, output_path)
+
+	def md5_checksum(self, filename):
+		hash_md5 = hashlib.md5()
+		with open(filename, "rb") as f:
+			for chunk in iter(lambda: f.read(4096), b""):
+				hash_md5.update(chunk)
+		return hash_md5.hexdigest()
+	
+	def zipup(self, input_name, output_name):
                 archive = zipfile.ZipFile(output_name, mode="w")
-
-        def unzip(self, zip_file_path, unzipped_folder=None):
+		archive.close()
+        
+	def unzip(self, zip_file_path, unzipped_folder=None):
                 abs_path = os.path.dirname(zip_file_path)
                 if not unzipped_folder:
                         unzipped_folder = os.path.splitext(os.path.basename(zip_file_path))[0].strip()
