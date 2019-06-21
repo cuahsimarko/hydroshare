@@ -263,6 +263,7 @@ INSTALLED_APPS = (
     "inplaceeditform",
     "django_nose",
     "django_irods",
+    "django_linux",
     "drf_yasg",
     "theme",
     "theme.blog_mods",

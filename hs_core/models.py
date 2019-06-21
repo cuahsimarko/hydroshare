@@ -31,14 +31,13 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError, \
 from django.forms.models import model_to_dict
 from django.core.urlresolvers import reverse
 from django.core.validators import URLValidator
-
+from django_linux.storage import LinuxStorage
 from mezzanine.pages.models import Page
 from mezzanine.core.managers import PublishedManager
 from mezzanine.core.models import Ownable
 from mezzanine.generic.fields import CommentsField, RatingField
 from mezzanine.conf import settings as s
 from mezzanine.pages.managers import PageManager
-
 from dominate.tags import div, legend, table, tbody, tr, th, td, h4
 
 from hs_core.irods import ResourceIRODSMixin, ResourceFileIRODSMixin
@@ -3253,20 +3252,20 @@ class BaseResource(Page, AbstractResource):
 
     def get_irods_storage(self):
         """Return either IrodsStorage or FedStorage."""
-            if self.storage_code == StorageCodes.IRODS: 
-                return IrodsStorage()
-            elif self.storage_code == StorageCodes.IRFED: 
-                return FedStorage()
-            elif self.storage_code == StorageCodes.LINUX: 
-                return LinuxStorage()
-            else: 
-                raise ValueError("incorrect storage type encountered") 
+    	if self.storage_code == StorageCodes.IRODS: 
+   		return IrodsStorage()
+        elif self.storage_code == StorageCodes.IRFED: 
+        	return FedStorage()
+        elif self.storage_code == StorageCodes.LINUX: 
+        	return LinuxStorage()
+        else: 
+        	raise ValueError("incorrect storage type encountered") 
 
     @property
     def is_federated(self):
         """Return existence of resource_federation_path."""
         return self.storage_code == StorageCodes.IRFED
-        # return self.resource_federation_path is not None and \
+        #return self.resource_federation_path is not None and \
         #     self.resource_federation_path != ''
 
     # Paths relative to the resource

@@ -1,0 +1,2017 @@
+REBUILD --db
+STOP HYDROSHARE:
+STOP NGINX:
+  - REMOVE: container nginx, image hydroshare_nginx
+nginx
+nginx
+Untagged: hydroshare_nginx:latest
+Deleted: sha256:892bbe3aa091208e7e8d0b8650fbcf418f50488998bca1964b82eccd3206800d
+Deleted: sha256:18be803dd1391b004840526930a82fdf3ab179a6a8b095874ac99afeb8abca1b
+Deleted: sha256:eec17b792ed8e1249ff6d56a339f61e76c14deb247833d8ddfa73ebc3ef14743
+Deleted: sha256:73d67a0da2ebc944b7100c51ae35139819acee1ebfa84a2c827c77fa6457c804
+Deleted: sha256:85332e819888bb443790057657eeb16238fb7ac8219cc1137fbcc54141c4e349
+Deleted: sha256:5b23f20d4db57651703ecd9548dabff3e8ed62f17415cb384f2654adae29bdfa
+Deleted: sha256:cfc2f37372e327f26981d239c401ad05e5192e5593dac24d5af4604c5fdeb8c8
+/home/hydro-service/hydroshare
+Stopping hydroshare ... 
+[1A[2KStopping hydroshare ... [32mdone[0m[1BStopping defaultworker ... 
+[1A[2KStopping defaultworker ... [32mdone[0m[1BStopping postgis ... 
+[1A[2KStopping postgis ... [32mdone[0m[1BStopping rabbitmq ... 
+[1A[2KStopping rabbitmq ... [32mdone[0m[1BStopping solr ... 
+[1A[2KStopping solr ... [32mdone[0m[1BDELETE CELERYBEAT:
+REMOVE HYDROSHARE COMPONENTS:
+Removing hydroshare ... 
+[1A[2KRemoving hydroshare ... [32mdone[0m[1BGoing to remove hydroshare
+Removing defaultworker ... 
+[1A[2KRemoving defaultworker ... [32mdone[0m[1BGoing to remove defaultworker
+Untagged: hydroshare_hydroshare:latest
+Untagged: hydroshare_defaultworker:latest
+Deleted: sha256:0e371bbe4fe0a6f8cbc9c44ddb282132b0404a5f8545055d117226bc8a204822
+Deleted: sha256:9ea9b586100f653200786905d63ddb25c8c0992249d58f4f0c9568bd39426ebe
+Deleted: sha256:a25dda4a48c0d44f5b187c69e4ad286819819ed5c4afb6d8fad4ba698f98dd5f
+Deleted: sha256:6982b1e6f78641cd9afdc7df79e2c4650f69d5bbc72efcadfa4fe0a08d33b1ca
+Deleted: sha256:a1341b3e73b6863b0774551a360d4be34f1c8ee901abc79e24858d6ce965c9b9
+Deleted: sha256:e85350d268ea3a4bea4af69b45f8badc0930ffed1d4dea8abc4bcef44286fe77
+Deleted: sha256:94f1d771a13d4bae88ced3e9b5d73fe5f18d17f5a406e59684dd55c757833a69
+REMOVE OTHER COMPONENTS:
+Removing postgis ... 
+[1A[2KRemoving postgis ... [32mdone[0m[1BGoing to remove postgis
+Removing rabbitmq ... 
+[1A[2KRemoving rabbitmq ... [32mdone[0m[1BGoing to remove rabbitmq
+Removing solr ... 
+[1A[2KRemoving solr ... [32mdone[0m[1BGoing to remove solr
+PREFLIGHT:
+  - HS_PATH       :/home/hydro/hydroshare
+  - HS_LOG_FILES  :/home/hydro/hydroshare/log
+  - USE_NGINX     :true
+  - USE_SSL       :true
+  - USE_SECURITY  :false
+cp: '/home/hydro/hydroshare/nginx/cert-files/cuahsi.crt' and '/home/hydro/hydroshare/nginx/cert-files/cuahsi.crt' are the same file
+cp: '/home/hydro/hydroshare/nginx/cert-files/cuahsi.key' and '/home/hydro/hydroshare/nginx/cert-files/cuahsi.key' are the same file
+BEGIN BUILD
+  - git submodule init && git submodule update
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+  - docker-compose build
+postgis uses an image, skipping
+rabbitmq uses an image, skipping
+solr uses an image, skipping
+Building hydroshare
+Step 1/6 : FROM hydroshare/hs_docker_base:release-1.9.8
+ ---> 5b53b7f69bac
+Step 2/6 : MAINTAINER Phuong Doan pdoan@cuahsi.org
+ ---> Running in a092bcf28797
+Removing intermediate container a092bcf28797
+ ---> fdfbb9b59412
+Step 3/6 : RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+ ---> Running in 20fd93b17653
+[91mDEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
+[0mCollecting git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+  Cloning https://github.com/theromis/django-inplaceedit.git (to revision e6fa12355defedf769a5f06edc8fc079a6e982ec) to /tmp/pip-req-build-6hEp8K
+[91m  Running command git clone -q https://github.com/theromis/django-inplaceedit.git /tmp/pip-req-build-6hEp8K
+[0mBuilding wheels for collected packages: django-inplaceedit
+  Building wheel for django-inplaceedit (setup.py): started
+  Building wheel for django-inplaceedit (setup.py): finished with status 'done'
+  Stored in directory: /tmp/pip-ephem-wheel-cache-9JX9hX/wheels/56/a3/88/d09d3188445f731d34028dd4df0f7feb9931566eb02cbc2394
+Successfully built django-inplaceedit
+Installing collected packages: django-inplaceedit
+Successfully installed django-inplaceedit-1.4.1
+Removing intermediate container 20fd93b17653
+ ---> a49e8b5359c2
+Step 4/6 : USER root
+ ---> Running in d049cdc4bdb6
+Removing intermediate container d049cdc4bdb6
+ ---> 16a3cc026f03
+Step 5/6 : WORKDIR /hydroshare
+ ---> Running in a196c8b01ce5
+Removing intermediate container a196c8b01ce5
+ ---> a9c75f21126e
+Step 6/6 : CMD ["/bin/bash"]
+ ---> Running in c1d95ad9ddb9
+Removing intermediate container c1d95ad9ddb9
+ ---> 71ebf802a40b
+Successfully built 71ebf802a40b
+Successfully tagged hydroshare_hydroshare:latest
+Building defaultworker
+Step 1/6 : FROM hydroshare/hs_docker_base:release-1.9.8
+ ---> 5b53b7f69bac
+Step 2/6 : MAINTAINER Phuong Doan pdoan@cuahsi.org
+ ---> Using cache
+ ---> fdfbb9b59412
+Step 3/6 : RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+ ---> Using cache
+ ---> a49e8b5359c2
+Step 4/6 : USER root
+ ---> Using cache
+ ---> 16a3cc026f03
+Step 5/6 : WORKDIR /hydroshare
+ ---> Using cache
+ ---> a9c75f21126e
+Step 6/6 : CMD ["/bin/bash"]
+ ---> Using cache
+ ---> 71ebf802a40b
+Successfully built 71ebf802a40b
+Successfully tagged hydroshare_defaultworker:latest
+  - docker-compose up -d
+Creating solr ... 
+Creating rabbitmq ... 
+Creating postgis ... 
+[5A[2KCreating rabbitmq ... [32mdone[0m[5B[5A[2KCreating postgis ... [32mdone[0m[5B[5A[2KCreating solr ... [32mdone[0m[5BCreating hydroshare ... 
+[5A[2KCreating hydroshare ... [32mdone[0m[5BCreating defaultworker ... 
+[5A[2KCreating defaultworker ... [32mdone[0m[5B20 ...[0K19 ...[0K18 ...[0K17 ...[0K16 ...[0K15 ...[0K14 ...[0K13 ...[0K12 ...[0K11 ...[0K10 ...[0K9 ...[0K8 ...[0K7 ...[0K6 ...[0K5 ...[0K4 ...[0K3 ...[0K2 ...[0K1 ...[0KLOADDB:
+REVOKE
+ pid | pg_terminate_backend 
+-----+----------------------
+(0 rows)
+
+  - docker exec -u hydro-service hydroshare dropdb -U postgres -h postgis postgres
+  - docker exec -u hydro-service hydroshare psql -U postgres -h postgis -d template1 -w -c 'CREATE EXTENSION postgis;'
+CREATE EXTENSION
+  - docker exec -u hydro-service hydroshare psql -U postgres -h postgis -d template1 -w -c 'CREATE EXTENSION hstore;'
+CREATE EXTENSION
+  - docker exec -u hydro-service hydroshare createdb -U postgres -h postgis postgres --encoding UNICODE --template=template1
+  - docker exec -u hydro-service hydroshare psql -U postgres -h postgis -d postgres -w -c 'SET client_min_messages TO WARNING;'
+SET
+  - docker exec -u hydro-service hydroshare psql -U postgres -h postgis -d postgres -q -f pg.deploy.sql
+psql:pg.deploy.sql:14: ERROR:  role "postgres" already exists
+ setval 
+--------
+    121
+(1 row)
+
+ setval 
+--------
+   6204
+(1 row)
+
+ setval 
+--------
+    875
+(1 row)
+
+ setval 
+--------
+   4730
+(1 row)
+
+ setval 
+--------
+   4626
+(1 row)
+
+ setval 
+--------
+   1784
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      2
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+     21
+(1 row)
+
+ setval 
+--------
+      3
+(1 row)
+
+ setval 
+--------
+      3
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    960
+(1 row)
+
+ setval 
+--------
+      4
+(1 row)
+
+ setval 
+--------
+    220
+(1 row)
+
+ setval 
+--------
+    256
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    254
+(1 row)
+
+ setval 
+--------
+      3
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    242
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    114
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+   1450
+(1 row)
+
+ setval 
+--------
+   1406
+(1 row)
+
+ setval 
+--------
+   1506
+(1 row)
+
+ setval 
+--------
+  17832
+(1 row)
+
+ setval 
+--------
+   4591
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+   1366
+(1 row)
+
+ setval 
+--------
+   1442
+(1 row)
+
+ setval 
+--------
+  21396
+(1 row)
+
+ setval 
+--------
+  18788
+(1 row)
+
+ setval 
+--------
+   1418
+(1 row)
+
+ setval 
+--------
+  23496
+(1 row)
+
+ setval 
+--------
+   4332
+(1 row)
+
+ setval 
+--------
+   1390
+(1 row)
+
+ setval 
+--------
+   4475
+(1 row)
+
+ setval 
+--------
+   6384
+(1 row)
+
+ setval 
+--------
+  12951
+(1 row)
+
+ setval 
+--------
+  36328
+(1 row)
+
+ setval 
+--------
+   1067
+(1 row)
+
+ setval 
+--------
+  45149
+(1 row)
+
+ setval 
+--------
+ 201696
+(1 row)
+
+ setval 
+--------
+   5866
+(1 row)
+
+ setval 
+--------
+    720
+(1 row)
+
+ setval 
+--------
+   1023
+(1 row)
+
+ setval 
+--------
+   1230
+(1 row)
+
+ setval 
+--------
+   2261
+(1 row)
+
+ setval 
+--------
+     38
+(1 row)
+
+ setval 
+--------
+    703
+(1 row)
+
+ setval 
+--------
+    114
+(1 row)
+
+ setval 
+--------
+     72
+(1 row)
+
+ setval 
+--------
+  17326
+(1 row)
+
+ setval 
+--------
+   8147
+(1 row)
+
+ setval 
+--------
+  17882
+(1 row)
+
+ setval 
+--------
+  15400
+(1 row)
+
+ setval 
+--------
+  22236
+(1 row)
+
+ setval 
+--------
+  35546
+(1 row)
+
+ setval 
+--------
+  13865
+(1 row)
+
+ setval 
+--------
+  46806
+(1 row)
+
+ setval 
+--------
+   1633
+(1 row)
+
+ setval 
+--------
+   1652
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+  17899
+(1 row)
+
+ setval 
+--------
+  17682
+(1 row)
+
+ setval 
+--------
+    253
+(1 row)
+
+ setval 
+--------
+   2400
+(1 row)
+
+ setval 
+--------
+ 592796
+(1 row)
+
+ setval 
+--------
+  17686
+(1 row)
+
+ setval 
+--------
+    999
+(1 row)
+
+ setval 
+--------
+ 103034
+(1 row)
+
+ setval 
+--------
+  17979
+(1 row)
+
+ setval 
+--------
+  17682
+(1 row)
+
+ setval 
+--------
+   3128
+(1 row)
+
+ setval 
+--------
+  18726
+(1 row)
+
+ setval 
+--------
+   2368
+(1 row)
+
+ setval 
+--------
+    714
+(1 row)
+
+ setval 
+--------
+   2444
+(1 row)
+
+ setval 
+--------
+   3480
+(1 row)
+
+ setval 
+--------
+   7092
+(1 row)
+
+ setval 
+--------
+  20032
+(1 row)
+
+ setval 
+--------
+    571
+(1 row)
+
+ setval 
+--------
+  24823
+(1 row)
+
+ setval 
+--------
+ 111286
+(1 row)
+
+ setval 
+--------
+   3205
+(1 row)
+
+ setval 
+--------
+     15
+(1 row)
+
+ setval 
+--------
+     15
+(1 row)
+
+ setval 
+--------
+  37060
+(1 row)
+
+ setval 
+--------
+  37060
+(1 row)
+
+ setval 
+--------
+   1165
+(1 row)
+
+ setval 
+--------
+   1162
+(1 row)
+
+ setval 
+--------
+   1252
+(1 row)
+
+ setval 
+--------
+   1252
+(1 row)
+
+ setval 
+--------
+   1583
+(1 row)
+
+ setval 
+--------
+   1510
+(1 row)
+
+ setval 
+--------
+     38
+(1 row)
+
+ setval 
+--------
+     38
+(1 row)
+
+ setval 
+--------
+    143
+(1 row)
+
+ setval 
+--------
+    143
+(1 row)
+
+ setval 
+--------
+   2120
+(1 row)
+
+ setval 
+--------
+   1935
+(1 row)
+
+ setval 
+--------
+   1733
+(1 row)
+
+ setval 
+--------
+  25243
+(1 row)
+
+ setval 
+--------
+   2167
+(1 row)
+
+ setval 
+--------
+   2167
+(1 row)
+
+ setval 
+--------
+  17720
+(1 row)
+
+ setval 
+--------
+   4585
+(1 row)
+
+ setval 
+--------
+    941
+(1 row)
+
+ setval 
+--------
+    312
+(1 row)
+
+ setval 
+--------
+     82
+(1 row)
+
+ setval 
+--------
+    586
+(1 row)
+
+ setval 
+--------
+     82
+(1 row)
+
+ setval 
+--------
+   1306
+(1 row)
+
+ setval 
+--------
+   1797
+(1 row)
+
+ setval 
+--------
+    244
+(1 row)
+
+ setval 
+--------
+   1700
+(1 row)
+
+ setval 
+--------
+     17
+(1 row)
+
+ setval 
+--------
+    241
+(1 row)
+
+ setval 
+--------
+   1712
+(1 row)
+
+ setval 
+--------
+    242
+(1 row)
+
+ setval 
+--------
+    237
+(1 row)
+
+ setval 
+--------
+     11
+(1 row)
+
+ setval 
+--------
+      7
+(1 row)
+
+ setval 
+--------
+      4
+(1 row)
+
+ setval 
+--------
+      4
+(1 row)
+
+ setval 
+--------
+      3
+(1 row)
+
+ setval 
+--------
+      3
+(1 row)
+
+ setval 
+--------
+    240
+(1 row)
+
+ setval 
+--------
+    241
+(1 row)
+
+ setval 
+--------
+     56
+(1 row)
+
+ setval 
+--------
+    113
+(1 row)
+
+ setval 
+--------
+    109
+(1 row)
+
+ setval 
+--------
+    138
+(1 row)
+
+ setval 
+--------
+    175
+(1 row)
+
+ setval 
+--------
+      4
+(1 row)
+
+ setval 
+--------
+     99
+(1 row)
+
+ setval 
+--------
+    119
+(1 row)
+
+ setval 
+--------
+      6
+(1 row)
+
+ setval 
+--------
+    114
+(1 row)
+
+ setval 
+--------
+     91
+(1 row)
+
+ setval 
+--------
+      5
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    109
+(1 row)
+
+ setval 
+--------
+      5
+(1 row)
+
+ setval 
+--------
+      8
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      9
+(1 row)
+
+ setval 
+--------
+      7
+(1 row)
+
+ setval 
+--------
+      9
+(1 row)
+
+ setval 
+--------
+     26
+(1 row)
+
+ setval 
+--------
+      6
+(1 row)
+
+ setval 
+--------
+     13
+(1 row)
+
+ setval 
+--------
+    117
+(1 row)
+
+ setval 
+--------
+    555
+(1 row)
+
+ setval 
+--------
+    153
+(1 row)
+
+ setval 
+--------
+    674
+(1 row)
+
+ setval 
+--------
+      4
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+    114
+(1 row)
+
+ setval 
+--------
+     43
+(1 row)
+
+ setval 
+--------
+ 612451
+(1 row)
+
+ setval  
+---------
+ 3304863
+(1 row)
+
+ setval 
+--------
+ 538046
+(1 row)
+
+ setval 
+--------
+  33126
+(1 row)
+
+ setval 
+--------
+    106
+(1 row)
+
+ setval 
+--------
+  27766
+(1 row)
+
+ setval 
+--------
+  33126
+(1 row)
+
+ setval 
+--------
+  17961
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+    163
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+      1
+(1 row)
+
+ setval 
+--------
+   4602
+(1 row)
+
+ setval 
+--------
+   4415
+(1 row)
+
+  - docker exec hydroshare chown -R hydro-service:storage-hydro /hydroshare /tmp /shared_tmp
+START NGINX:
+PREFLIGHT NGINX:
+  - docker build -t hydroshare_nginx .
+Sending build context to Docker daemon  53.25kB
+Step 1/6 : FROM nginx:1.11
+ ---> 5766334bdaa0
+Step 2/6 : MAINTAINER Michael J. Stealey <michael.j.stealey@gmail.com>
+ ---> Running in 815d9a51f201
+Removing intermediate container 815d9a51f201
+ ---> 268d59353d19
+Step 3/6 : COPY . /tmp
+ ---> 6bc649107b57
+Step 4/6 : RUN cp /tmp/config-files/hs-nginx.conf /etc/nginx/conf.d/default.conf     && cp /tmp/config-files/nginx.conf-default /etc/nginx/nginx.conf     && cp /tmp/.htpasswd /etc/nginx/.htpasswd     && cp /tmp/docker-entrypoint.sh /docker-entrypoint.sh     && groupadd -g 214400513 irods     && echo 'irods:x:214401721:214400513::/home/irods:/bin/bash' >> /etc/passwd
+ ---> Running in 213a2ce8e84f
+Removing intermediate container 213a2ce8e84f
+ ---> 319f7f28ba38
+Step 5/6 : ENTRYPOINT ["/docker-entrypoint.sh"]
+ ---> Running in ba1542f26325
+Removing intermediate container ba1542f26325
+ ---> e954dedb6a98
+Step 6/6 : CMD ["run"]
+ ---> Running in 753db7c7369f
+Removing intermediate container 753db7c7369f
+ ---> 864ecbeb3a65
+Successfully built 864ecbeb3a65
+Successfully tagged hydroshare_nginx:latest
+  - docker run hydroshare_nginx as nginx
+15d69f0ab0a4aec1c24195fd43ec333581403217a28f91114a6c4bf9c80e922e
+/home/hydro-service/hydroshare
+  - docker exec -u hydro-service hydroshare python manage.py collectstatic -v0 --noinput
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+  - docker exec -u hydro-service hydroshare rm -f hydroshare/static/robots.txt
+MIGRATE:
+  - docker exec -u hydro-service hydroshare python manage.py migrate sites --noinput
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+System check identified some issues:
+
+WARNINGS:
+?: (mezzanine.core.W03) You haven't included 'mezzanine.template.loader_tags' as a builtin in any of your template configurations. Mezzanine's 'overextends' tag will not be available in your templates.
+security.PasswordExpiry.user: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+	HINT: ForeignKey(unique=True) is usually better served by a OneToOneField.
+Operations to perform:
+  Apply all migrations: sites
+Running migrations:
+  No migrations to apply.
+  - docker exec -u hydro-service hydroshare python manage.py migrate --fake-initial --noinput
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+System check identified some issues:
+
+WARNINGS:
+?: (mezzanine.core.W03) You haven't included 'mezzanine.template.loader_tags' as a builtin in any of your template configurations. Mezzanine's 'overextends' tag will not be available in your templates.
+security.PasswordExpiry.user: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+	HINT: ForeignKey(unique=True) is usually better served by a OneToOneField.
+Operations to perform:
+  Apply all migrations: admin, auth, blog, conf, contenttypes, core, django_comments, django_irods, forms, galleries, generic, hs_access_control, hs_app_netCDF, hs_app_timeseries, hs_collection_resource, hs_composite_resource, hs_core, hs_dictionary, hs_file_types, hs_geo_raster_resource, hs_geographic_feature_resource, hs_labels, hs_model_program, hs_modelinstance, hs_modflow_modelinstance, hs_script_resource, hs_swat_modelinstance, hs_tools_resource, hs_tracking, oauth2_provider, pages, redirects, ref_ts, robots, security, sessions, sites, theme
+Running migrations:
+  Applying hs_core.0042_auto_20190402_1339... OK
+  Applying hs_tracking.0006_auto_20190407_1436... OK
+  Applying hs_tracking.0007_auto_20190503_1724... OK
+  - docker exec -u hydro-service hydroshare python manage.py fix_permissions
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+System check identified some issues:
+
+WARNINGS:
+?: (mezzanine.core.W03) You haven't included 'mezzanine.template.loader_tags' as a builtin in any of your template configurations. Mezzanine's 'overextends' tag will not be available in your templates.
+security.PasswordExpiry.user: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+	HINT: ForeignKey(unique=True) is usually better served by a OneToOneField.
+  --add_permission
+  --change_permission
+  --delete_permission
+  --add_group
+  --change_group
+  --delete_group
+  --add_user
+  --change_user
+  --delete_user
+  --add_application
+  --change_application
+  --delete_application
+  --add_grant
+  --change_grant
+  --delete_grant
+  --add_accesstoken
+  --change_accesstoken
+  --delete_accesstoken
+  --add_refreshtoken
+  --change_refreshtoken
+  --delete_refreshtoken
+  --add_contenttype
+  --change_contenttype
+  --delete_contenttype
+  --add_redirect
+  --change_redirect
+  --delete_redirect
+  --add_session
+  --change_session
+  --delete_session
+  --add_site
+  --change_site
+  --delete_site
+  --add_postgisgeometrycolumns
+  --change_postgisgeometrycolumns
+  --delete_postgisgeometrycolumns
+  --add_postgisspatialrefsys
+  --change_postgisspatialrefsys
+  --delete_postgisspatialrefsys
+  --add_rodsenvironment
+  --change_rodsenvironment
+  --delete_rodsenvironment
+  --add_siteconfiguration
+  --change_siteconfiguration
+  --delete_siteconfiguration
+  --add_homepage
+  --change_homepage
+  --delete_homepage
+  --add_iconbox
+  --change_iconbox
+  --delete_iconbox
+  --add_quotamessage
+  --change_quotamessage
+  --delete_quotamessage
+  --add_userquota
+  --change_userquota
+  --delete_userquota
+  --add_userprofile
+  --change_userprofile
+  --delete_userprofile
+  --add_setting
+  --change_setting
+  --delete_setting
+  --add_sitepermission
+  --change_sitepermission
+  --delete_sitepermission
+  --add_threadedcomment
+  --change_threadedcomment
+  --delete_threadedcomment
+  --add_keyword
+  --change_keyword
+  --delete_keyword
+  --add_assignedkeyword
+  --change_assignedkeyword
+  --delete_assignedkeyword
+  --add_rating
+  --change_rating
+  --delete_rating
+  --add_blogpost
+  --change_blogpost
+  --delete_blogpost
+  --add_blogcategory
+  --change_blogcategory
+  --delete_blogcategory
+  --add_form
+  --change_form
+  --delete_form
+  --add_field
+  --change_field
+  --delete_field
+  --add_formentry
+  --change_formentry
+  --delete_formentry
+  --add_fieldentry
+  --change_fieldentry
+  --delete_fieldentry
+  --add_page
+  --change_page
+  --delete_page
+  --add_richtextpage
+  --change_richtextpage
+  --delete_richtextpage
+  --add_link
+  --change_link
+  --delete_link
+  --add_gallery
+  --change_gallery
+  --delete_gallery
+  --add_galleryimage
+  --change_galleryimage
+  --delete_galleryimage
+  --add_url
+  --change_url
+  --delete_url
+  --add_rule
+  --change_rule
+  --delete_rule
+  --add_groupownership
+  --change_groupownership
+  --delete_groupownership
+  --add_contributor
+  --change_contributor
+  --delete_contributor
+  --add_creator
+  --change_creator
+  --delete_creator
+  --add_description
+  --change_description
+  --delete_description
+  --add_title
+  --change_title
+  --delete_title
+  --add_type
+  --change_type
+  --delete_type
+  --add_date
+  --change_date
+  --delete_date
+  --add_relation
+  --change_relation
+  --delete_relation
+  --add_identifier
+  --change_identifier
+  --delete_identifier
+  --add_publisher
+  --change_publisher
+  --delete_publisher
+  --add_language
+  --change_language
+  --delete_language
+  --add_coverage
+  --change_coverage
+  --delete_coverage
+  --add_format
+  --change_format
+  --delete_format
+  --add_fundingagency
+  --change_fundingagency
+  --delete_fundingagency
+  --add_subject
+  --change_subject
+  --delete_subject
+  --add_source
+  --change_source
+  --delete_source
+  --add_rights
+  --change_rights
+  --delete_rights
+  --add_resourcefile
+  --change_resourcefile
+  --delete_resourcefile
+  --add_bags
+  --change_bags
+  --delete_bags
+  --add_baseresource
+  --change_baseresource
+  --delete_baseresource
+  --add_genericresource
+  --change_genericresource
+  --delete_genericresource
+  --add_coremetadata
+  --change_coremetadata
+  --delete_coremetadata
+  --add_community
+  --change_community
+  --delete_community
+  --add_usergroupprivilege
+  --change_usergroupprivilege
+  --delete_usergroupprivilege
+  --add_userresourceprivilege
+  --change_userresourceprivilege
+  --delete_userresourceprivilege
+  --add_groupresourceprivilege
+  --change_groupresourceprivilege
+  --delete_groupresourceprivilege
+  --add_usercommunityprivilege
+  --change_usercommunityprivilege
+  --delete_usercommunityprivilege
+  --add_groupcommunityprivilege
+  --change_groupcommunityprivilege
+  --delete_groupcommunityprivilege
+  --add_usergroupprovenance
+  --change_usergroupprovenance
+  --delete_usergroupprovenance
+  --add_userresourceprovenance
+  --change_userresourceprovenance
+  --delete_userresourceprovenance
+  --add_groupresourceprovenance
+  --change_groupresourceprovenance
+  --delete_groupresourceprovenance
+  --add_usercommunityprovenance
+  --change_usercommunityprovenance
+  --delete_usercommunityprovenance
+  --add_groupcommunityprovenance
+  --change_groupcommunityprovenance
+  --delete_groupcommunityprovenance
+  --add_groupmembershiprequest
+  --change_groupmembershiprequest
+  --delete_groupmembershiprequest
+  --add_groupaccess
+  --change_groupaccess
+  --delete_groupaccess
+  --add_useraccess
+  --change_useraccess
+  --delete_useraccess
+  --add_resourceaccess
+  --change_resourceaccess
+  --delete_resourceaccess
+  --add_userresourcelabels
+  --change_userresourcelabels
+  --delete_userresourcelabels
+  --add_userresourceflags
+  --change_userresourceflags
+  --delete_userresourceflags
+  --add_userstoredlabels
+  --change_userstoredlabels
+  --delete_userstoredlabels
+  --add_userlabels
+  --change_userlabels
+  --delete_userlabels
+  --add_resourcelabels
+  --change_resourcelabels
+  --delete_resourcelabels
+  --add_originalcoverage
+  --change_originalcoverage
+  --delete_originalcoverage
+  --add_bandinformation
+  --change_bandinformation
+  --delete_bandinformation
+  --add_cellinformation
+  --change_cellinformation
+  --delete_cellinformation
+  --add_rasterresource
+  --change_rasterresource
+  --delete_rasterresource
+  --add_rastermetadata
+  --change_rastermetadata
+  --delete_rastermetadata
+  --add_reftimeseriesresource
+  --change_reftimeseriesresource
+  --delete_reftimeseriesresource
+  --add_referenceurl
+  --change_referenceurl
+  --delete_referenceurl
+  --add_method
+  --change_method
+  --delete_method
+  --add_qualitycontrollevel
+  --change_qualitycontrollevel
+  --delete_qualitycontrollevel
+  --add_variable
+  --change_variable
+  --delete_variable
+  --add_site
+  --change_site
+  --delete_site
+  --add_datasource
+  --change_datasource
+  --delete_datasource
+  --add_reftsmetadata
+  --change_reftsmetadata
+  --delete_reftsmetadata
+  --add_site
+  --change_site
+  --delete_site
+  --add_variable
+  --change_variable
+  --delete_variable
+  --add_method
+  --change_method
+  --delete_method
+  --add_processinglevel
+  --change_processinglevel
+  --delete_processinglevel
+  --add_timeseriesresult
+  --change_timeseriesresult
+  --delete_timeseriesresult
+  --add_utcoffset
+  --change_utcoffset
+  --delete_utcoffset
+  --add_cvvariabletype
+  --change_cvvariabletype
+  --delete_cvvariabletype
+  --add_cvvariablename
+  --change_cvvariablename
+  --delete_cvvariablename
+  --add_cvspeciation
+  --change_cvspeciation
+  --delete_cvspeciation
+  --add_cvelevationdatum
+  --change_cvelevationdatum
+  --delete_cvelevationdatum
+  --add_cvsitetype
+  --change_cvsitetype
+  --delete_cvsitetype
+  --add_cvmethodtype
+  --change_cvmethodtype
+  --delete_cvmethodtype
+  --add_cvunitstype
+  --change_cvunitstype
+  --delete_cvunitstype
+  --add_cvstatus
+  --change_cvstatus
+  --delete_cvstatus
+  --add_cvmedium
+  --change_cvmedium
+  --delete_cvmedium
+  --add_cvaggregationstatistic
+  --change_cvaggregationstatistic
+  --delete_cvaggregationstatistic
+  --add_timeseriesresource
+  --change_timeseriesresource
+  --delete_timeseriesresource
+  --add_timeseriesmetadata
+  --change_timeseriesmetadata
+  --delete_timeseriesmetadata
+  --add_originalcoverage
+  --change_originalcoverage
+  --delete_originalcoverage
+  --add_variable
+  --change_variable
+  --delete_variable
+  --add_netcdfresource
+  --change_netcdfresource
+  --delete_netcdfresource
+  --add_netcdfmetadata
+  --change_netcdfmetadata
+  --delete_netcdfmetadata
+  --add_mpmetadata
+  --change_mpmetadata
+  --delete_mpmetadata
+  --add_modelprogramresource
+  --change_modelprogramresource
+  --delete_modelprogramresource
+  --add_modelprogrammetadata
+  --change_modelprogrammetadata
+  --delete_modelprogrammetadata
+  --add_modeloutput
+  --change_modeloutput
+  --delete_modeloutput
+  --add_executedby
+  --change_executedby
+  --delete_executedby
+  --add_modelinstanceresource
+  --change_modelinstanceresource
+  --delete_modelinstanceresource
+  --add_modelinstancemetadata
+  --change_modelinstancemetadata
+  --delete_modelinstancemetadata
+  --add_toolresource
+  --change_toolresource
+  --delete_toolresource
+  --add_supportedfileextensions
+  --change_supportedfileextensions
+  --delete_supportedfileextensions
+  --add_apphomepageurl
+  --change_apphomepageurl
+  --delete_apphomepageurl
+  --add_testingprotocolurl
+  --change_testingprotocolurl
+  --delete_testingprotocolurl
+  --add_helppageurl
+  --change_helppageurl
+  --delete_helppageurl
+  --add_sourcecodeurl
+  --change_sourcecodeurl
+  --delete_sourcecodeurl
+  --add_issuespageurl
+  --change_issuespageurl
+  --delete_issuespageurl
+  --add_mailinglisturl
+  --change_mailinglisturl
+  --delete_mailinglisturl
+  --add_roadmap
+  --change_roadmap
+  --delete_roadmap
+  --add_showonopenwithlist
+  --change_showonopenwithlist
+  --delete_showonopenwithlist
+  --add_requesturlbase
+  --change_requesturlbase
+  --delete_requesturlbase
+  --add_requesturlbaseaggregation
+  --change_requesturlbaseaggregation
+  --delete_requesturlbaseaggregation
+  --add_requesturlbasefile
+  --change_requesturlbasefile
+  --delete_requesturlbasefile
+  --add_toolversion
+  --change_toolversion
+  --delete_toolversion
+  --add_supportedrestypechoices
+  --change_supportedrestypechoices
+  --delete_supportedrestypechoices
+  --add_supportedrestypes
+  --change_supportedrestypes
+  --delete_supportedrestypes
+  --add_supportedaggtypechoices
+  --change_supportedaggtypechoices
+  --delete_supportedaggtypechoices
+  --add_supportedaggtypes
+  --change_supportedaggtypes
+  --delete_supportedaggtypes
+  --add_supportedsharingstatuschoices
+  --change_supportedsharingstatuschoices
+  --delete_supportedsharingstatuschoices
+  --add_supportedsharingstatus
+  --change_supportedsharingstatus
+  --delete_supportedsharingstatus
+  --add_toolicon
+  --change_toolicon
+  --delete_toolicon
+  --add_toolmetadata
+  --change_toolmetadata
+  --delete_toolmetadata
+  --add_modeloutput
+  --change_modeloutput
+  --delete_modeloutput
+  --add_executedby
+  --change_executedby
+  --delete_executedby
+  --add_modelobjectivechoices
+  --change_modelobjectivechoices
+  --delete_modelobjectivechoices
+  --add_modelobjective
+  --change_modelobjective
+  --delete_modelobjective
+  --add_simulationtype
+  --change_simulationtype
+  --delete_simulationtype
+  --add_modelmethod
+  --change_modelmethod
+  --delete_modelmethod
+  --add_modelparameterschoices
+  --change_modelparameterschoices
+  --delete_modelparameterschoices
+  --add_modelparameter
+  --change_modelparameter
+  --delete_modelparameter
+  --add_modelinput
+  --change_modelinput
+  --delete_modelinput
+  --add_swatmodelinstanceresource
+  --change_swatmodelinstanceresource
+  --delete_swatmodelinstanceresource
+  --add_swatmodelinstancemetadata
+  --change_swatmodelinstancemetadata
+  --delete_swatmodelinstancemetadata
+  --add_originalcoverage
+  --change_originalcoverage
+  --delete_originalcoverage
+  --add_fieldinformation
+  --change_fieldinformation
+  --delete_fieldinformation
+  --add_geometryinformation
+  --change_geometryinformation
+  --delete_geometryinformation
+  --add_geographicfeatureresource
+  --change_geographicfeatureresource
+  --delete_geographicfeatureresource
+  --add_geographicfeaturemetadata
+  --change_geographicfeaturemetadata
+  --delete_geographicfeaturemetadata
+  --add_scriptresource
+  --change_scriptresource
+  --delete_scriptresource
+  --add_scriptspecificmetadata
+  --change_scriptspecificmetadata
+  --delete_scriptspecificmetadata
+  --add_scriptmetadata
+  --change_scriptmetadata
+  --delete_scriptmetadata
+  --add_collectionresource
+  --change_collectionresource
+  --delete_collectionresource
+  --add_collectiondeletedresource
+  --change_collectiondeletedresource
+  --delete_collectiondeletedresource
+  --add_modeloutput
+  --change_modeloutput
+  --delete_modeloutput
+  --add_executedby
+  --change_executedby
+  --delete_executedby
+  --add_studyarea
+  --change_studyarea
+  --delete_studyarea
+  --add_griddimensions
+  --change_griddimensions
+  --delete_griddimensions
+  --add_stressperiod
+  --change_stressperiod
+  --delete_stressperiod
+  --add_groundwaterflow
+  --change_groundwaterflow
+  --delete_groundwaterflow
+  --add_specifiedheadboundarypackagechoices
+  --change_specifiedheadboundarypackagechoices
+  --delete_specifiedheadboundarypackagechoices
+  --add_specifiedfluxboundarypackagechoices
+  --change_specifiedfluxboundarypackagechoices
+  --delete_specifiedfluxboundarypackagechoices
+  --add_headdependentfluxboundarypackagechoices
+  --change_headdependentfluxboundarypackagechoices
+  --delete_headdependentfluxboundarypackagechoices
+  --add_boundarycondition
+  --change_boundarycondition
+  --delete_boundarycondition
+  --add_modelcalibration
+  --change_modelcalibration
+  --delete_modelcalibration
+  --add_modelinput
+  --change_modelinput
+  --delete_modelinput
+  --add_outputcontrolpackagechoices
+  --change_outputcontrolpackagechoices
+  --delete_outputcontrolpackagechoices
+  --add_generalelements
+  --change_generalelements
+  --delete_generalelements
+  --add_modflowmodelinstanceresource
+  --change_modflowmodelinstanceresource
+  --delete_modflowmodelinstanceresource
+  --add_modflowmodelinstancemetadata
+  --change_modflowmodelinstancemetadata
+  --delete_modflowmodelinstancemetadata
+  --add_visitor
+  --change_visitor
+  --delete_visitor
+  --add_session
+  --change_session
+  --delete_session
+  --add_variable
+  --change_variable
+  --delete_variable
+  --add_genericfilemetadata
+  --change_genericfilemetadata
+  --delete_genericfilemetadata
+  --add_genericlogicalfile
+  --change_genericlogicalfile
+  --delete_genericlogicalfile
+  --add_georasterfilemetadata
+  --change_georasterfilemetadata
+  --delete_georasterfilemetadata
+  --add_georasterlogicalfile
+  --change_georasterlogicalfile
+  --delete_georasterlogicalfile
+  --add_netcdffilemetadata
+  --change_netcdffilemetadata
+  --delete_netcdffilemetadata
+  --add_netcdflogicalfile
+  --change_netcdflogicalfile
+  --delete_netcdflogicalfile
+  --add_geofeaturefilemetadata
+  --change_geofeaturefilemetadata
+  --delete_geofeaturefilemetadata
+  --add_geofeaturelogicalfile
+  --change_geofeaturelogicalfile
+  --delete_geofeaturelogicalfile
+  --add_reftimeseriesfilemetadata
+  --change_reftimeseriesfilemetadata
+  --delete_reftimeseriesfilemetadata
+  --add_reftimeserieslogicalfile
+  --change_reftimeserieslogicalfile
+  --delete_reftimeserieslogicalfile
+  --add_cvvariabletype
+  --change_cvvariabletype
+  --delete_cvvariabletype
+  --add_cvvariablename
+  --change_cvvariablename
+  --delete_cvvariablename
+  --add_cvspeciation
+  --change_cvspeciation
+  --delete_cvspeciation
+  --add_cvelevationdatum
+  --change_cvelevationdatum
+  --delete_cvelevationdatum
+  --add_cvsitetype
+  --change_cvsitetype
+  --delete_cvsitetype
+  --add_cvmethodtype
+  --change_cvmethodtype
+  --delete_cvmethodtype
+  --add_cvunitstype
+  --change_cvunitstype
+  --delete_cvunitstype
+  --add_cvstatus
+  --change_cvstatus
+  --delete_cvstatus
+  --add_cvmedium
+  --change_cvmedium
+  --delete_cvmedium
+  --add_cvaggregationstatistic
+  --change_cvaggregationstatistic
+  --delete_cvaggregationstatistic
+  --add_timeseriesfilemetadata
+  --change_timeseriesfilemetadata
+  --delete_timeseriesfilemetadata
+  --add_timeserieslogicalfile
+  --change_timeserieslogicalfile
+  --delete_timeserieslogicalfile
+  --add_filesetmetadata
+  --change_filesetmetadata
+  --delete_filesetmetadata
+  --add_filesetlogicalfile
+  --change_filesetlogicalfile
+  --delete_filesetlogicalfile
+  --add_compositeresource
+  --change_compositeresource
+  --delete_compositeresource
+  --add_university
+  --change_university
+  --delete_university
+  --add_uncategorizedterm
+  --change_uncategorizedterm
+  --delete_uncategorizedterm
+  --add_passwordexpiry
+  --change_passwordexpiry
+  --delete_passwordexpiry
+  --add_cspreport
+  --change_cspreport
+  --delete_cspreport
+  --add_logentry
+  --change_logentry
+  --delete_logentry
+  --add_comment
+  --change_comment
+  --delete_comment
+  --can_moderate
+  --add_commentflag
+  --change_commentflag
+  --delete_commentflag
+SOLR SCHEMA:
+ - docker exec solr bin/solr create_core -c collection1 -n basic_config
+
+Copying configuration to new core instance directory:
+/opt/solr/server/solr/collection1
+
+Creating new core 'collection1' using command:
+http://localhost:8983/solr/admin/cores?action=CREATE&name=collection1&instanceDir=collection1
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":1954},
+  "core":"collection1"}
+
+
+  - docker exec hydroshare python manage.py build_solr_schema -f schema.xml
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+/usr/local/lib/python2.7/site-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+  warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
+System check identified some issues:
+
+WARNINGS:
+?: (mezzanine.core.W03) You haven't included 'mezzanine.template.loader_tags' as a builtin in any of your template configurations. Mezzanine's 'overextends' tag will not be available in your templates.
+security.PasswordExpiry.user: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+	HINT: ForeignKey(unique=True) is usually better served by a OneToOneField.
+Trying to write schema file located at schema.xml
+  - docker exec solr cp /hydroshare/schema.xml /opt/solr/example/solr/collection1/conf/schema.xml
+  - docker exec solr sed -i '/<schemaFactory class="ManagedIndexSchemaFactory">/,+4d' /opt/solr/server/solr/collection1/conf/solrconfig.xml
+  - docker exec solr rm /opt/solr/server/solr/collection1/conf/managed-schema
+SOLR RELOAD
+  - docker exec hydroshare curl "solr:8983/solr/admin/cores?action=RELOAD&core=collection1"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   149  100   149    0     0    275      0 --:--:-- --:--:-- --:--:--   275
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+<lst name="responseHeader"><int name="status">0</int><int name="QTime">527</int></lst>
+</response>
+REBUILD SOLR INDEX:
+  - docker exec hydroshare python manage.py rebuild_index --noinput
+/usr/local/lib/python2.7/site-packages/mezzanine/utils/conf.py:73: UserWarning: TIME_ZONE setting is not set, using closest match: Etc/UTC
+  warn("TIME_ZONE setting is not set, using closest match: %s" % tz)
+System check identified some issues:
+
+WARNINGS:
+?: (mezzanine.core.W03) You haven't included 'mezzanine.template.loader_tags' as a builtin in any of your template configurations. Mezzanine's 'overextends' tag will not be available in your templates.
+security.PasswordExpiry.user: (fields.W342) Setting unique=True on a ForeignKey has the same effect as using a OneToOneField.
+	HINT: ForeignKey(unique=True) is usually better served by a OneToOneField.
+Removing all documents from your index because you said so.
+All documents removed.
+Indexing 3259 Generics
+RESTART HYDROSHARE:
+STOP NGINX:
+  - REMOVE: container nginx, image hydroshare_nginx
+nginx
+nginx
+Untagged: hydroshare_nginx:latest
+Deleted: sha256:864ecbeb3a65b42e54cd9f461d2003df81129ef05949fc5a1703d2222c35867f
+Deleted: sha256:e954dedb6a98a4834bd4bf207c9f85d9b4274f87950385517c0388d346c39e5f
+Deleted: sha256:319f7f28ba38e842ca7b711578187ff99a84e86aac483714b0cd4766280c7193
+Deleted: sha256:caf1cb5ea6e2547cc978ac1ad88f0222104ccd056076d55ebc4291ca639eade3
+Deleted: sha256:6bc649107b579b44022848fca53d01429e657b78b728d8e11a53078a73d06f03
+Deleted: sha256:0d3facbfea8358fd19c3dda0bfc15adec99623c2907e7048d59c3ec76b157fb9
+Deleted: sha256:268d59353d19ee1f5c07c180b93dd82df985d4fcfaae477308940cd549346d3b
+/home/hydro-service/hydroshare
+Stopping hydroshare ... 
+[1A[2KStopping hydroshare ... [32mdone[0m[1BPREFLIGHT:
+  - HS_PATH       :/home/hydro/hydroshare
+  - HS_LOG_FILES  :/home/hydro/hydroshare/log
+  - USE_NGINX     :true
+  - USE_SSL       :true
+  - USE_SECURITY  :false
+cp: '/home/hydro/hydroshare/nginx/cert-files/cuahsi.crt' and '/home/hydro/hydroshare/nginx/cert-files/cuahsi.crt' are the same file
+cp: '/home/hydro/hydroshare/nginx/cert-files/cuahsi.key' and '/home/hydro/hydroshare/nginx/cert-files/cuahsi.key' are the same file
+Starting hydroshare    ... 
+Starting defaultworker ... 
+[2A[2KStarting hydroshare    ... [32mdone[0m[2B[1A[2KStarting defaultworker ... [32mdone[0m[1BSTART NGINX:
+PREFLIGHT NGINX:
+  - docker build -t hydroshare_nginx .
+Sending build context to Docker daemon  53.25kB
+Step 1/6 : FROM nginx:1.11
+ ---> 5766334bdaa0
+Step 2/6 : MAINTAINER Michael J. Stealey <michael.j.stealey@gmail.com>
+ ---> Running in f787498a5f3d
+Removing intermediate container f787498a5f3d
+ ---> fb1b9c6f840e
+Step 3/6 : COPY . /tmp
+ ---> bf01c439b7a9
+Step 4/6 : RUN cp /tmp/config-files/hs-nginx.conf /etc/nginx/conf.d/default.conf     && cp /tmp/config-files/nginx.conf-default /etc/nginx/nginx.conf     && cp /tmp/.htpasswd /etc/nginx/.htpasswd     && cp /tmp/docker-entrypoint.sh /docker-entrypoint.sh     && groupadd -g 214400513 irods     && echo 'irods:x:214401721:214400513::/home/irods:/bin/bash' >> /etc/passwd
+ ---> Running in 49136988e865
+Removing intermediate container 49136988e865
+ ---> b2866f44b380
+Step 5/6 : ENTRYPOINT ["/docker-entrypoint.sh"]
+ ---> Running in a67dccafe4c9
+Removing intermediate container a67dccafe4c9
+ ---> c6baff211b34
+Step 6/6 : CMD ["run"]
+ ---> Running in 02b24548deac
+Removing intermediate container 02b24548deac
+ ---> 92ed24b7ea23
+Successfully built 92ed24b7ea23
+Successfully tagged hydroshare_nginx:latest
+  - docker run hydroshare_nginx as nginx
+86c882233216d41f8a500bade9be31c3467884d402698a29ce9142ff0ff5a620
+/home/hydro-service/hydroshare
+END BUILD

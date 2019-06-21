@@ -31,6 +31,10 @@ class TestStorage(TestCase):
         self.group.delete()
         self.user.delete()
 
+    def test_zip_storage(self):
+	IrodsStorage.zipup("home/hydro-service/hydroshare/manish_test/file1", "/home/hyro-service/hydroshare/manish_test/file.zip")
+
+	
     def test_listdir_replicas(self):
         def mocked_ils_l(self, path):
             return "/hydroshareZone/home/wwwHydroProxy" \

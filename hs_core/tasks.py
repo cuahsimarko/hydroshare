@@ -434,7 +434,8 @@ def create_bag_by_irods(resource_id):
             '{res_id}/tagmanifest-md5.txt'.format(res_id=resource_id),
             'bags/{res_id}.zip'.format(res_id=resource_id)
         ]
-
+    print( "The bagit input path is: " + bagit_input_path)
+    print( "The bagit input resource is: " + bagit_input_resource)
     # only proceed when the resource is not deleted potentially by another request
     # when being downloaded
     if is_exist:
