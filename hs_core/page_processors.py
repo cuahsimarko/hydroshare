@@ -121,6 +121,16 @@ def get_page_context(page, user, resource_edit=False, extended_metadata_layout=N
 
     keywords = json.dumps([sub.value for sub in content_model.metadata.subjects.all()])
 
+    if user.is_authenticated():
+        user_permission = content_model.raccess.user_permission(user)
+    else:
+        if content_model.raccess.published or \
+           content_model.raccess.public or \
+           content_model.raccess.discoverable:
+                user_permission = 'Open Access'
+        else:
+                user_permission = 'None'
+
     # user requested the resource in READONLY mode
     if not resource_edit:
         content_model.update_view_count(request)
@@ -209,7 +219,8 @@ def get_page_context(page, user, resource_edit=False, extended_metadata_layout=N
                    'belongs_to_collections': belongs_to_collections,
                    'show_web_reference_note': has_web_ref,
                    'current_user': user,
-                   'maps_key': maps_key
+                   'maps_key': maps_key,
+                   'user_permission': user_permission
         }
 
         if 'task_id' in request.session:
@@ -311,7 +322,8 @@ def get_page_context(page, user, resource_edit=False, extended_metadata_layout=N
                                               type_value != 'hasPart'),
                'show_web_reference_note': has_web_ref,
                'belongs_to_collections': belongs_to_collections,
-               'maps_key': maps_key
+               'maps_key': maps_key,
+               'user_permission': user_permission
     }
 
     return context

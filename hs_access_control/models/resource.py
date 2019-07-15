@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.db import models
-from django.db.models import Q, Subquery
+from django.db.models import Q, Subquery, Min
 from django.core.exceptions import PermissionDenied
 
 from hs_core.models import BaseResource
@@ -533,3 +533,67 @@ class ResourceAccess(models.Model):
             return "discoverable"
         else:
             return "private"
+
+    def user_privilege(self, user):
+        """ return the permission for a specific user, short-circuiting out quickly as possible """
+
+        # privilege due to direct user permission
+        uperm = PC.NONE
+        # zero or one records only.
+        for upriv in UserResourcePrivilege.objects.filter(resource=self.resource, user=user):
+            if upriv.privilege == PC.OWNER:  # no more privilege is possible
+                return PC.OWNER
+            else:
+                uperm = upriv.privilege
+
+        # group privilege via minimal queries
+
+        # find all group-resource records
+        grp_resource = GroupResourcePrivilege.objects.filter(resource=self.resource)
+
+        # direct group membership
+        gpriv = grp_resource.filter(group__g2ugp__user=user)\
+                            .aggregate(perm=Min('group__g2ugp__privilege'))
+
+        if gpriv['perm'] is not None:
+            if gpriv['perm'] == PC.CHANGE:
+                return PC.CHANGE  # no more privilege is possible
+            else:
+                gperm = gpriv['perm']
+        else:
+            gperm = PC.NONE
+
+        # all communities to which user has access
+        grp_community = grp_resource.filter(group__g2gcp__community__c2gcp__group__user=user)
+
+        if not grp_community.exists():
+            return PC.NONE
+
+        # check for superuser privilege over a resource
+        if grp_community.filter(raccess__immutable=False,
+                                group__g2gcp__privilege=PC.CHANGE,
+                                group__g2gcp__community__c2gcp__group__user=user,
+                                group__g2gcp__community__c2gcp__privilege=PC.CHANGE)\
+                        .exists():
+            return PC.CHANGE  # superuser over changeable resource in community
+
+        perm = min(uperm, gperm)
+        if perm != PC.NONE:  # last step can only result in VIEW privilege
+            return perm
+
+        if grp_community.filter(Q(group__g2gcp__community__c2gcp__group__user=user) &
+                                (Q(group__g2gcp__allow_view=True) |
+                                 Q(group__g2gcp__community__c2gcp__privilege=PC.CHANGE))).exists():
+            return PC.VIEW  # not superuser or resource not mutable
+
+    def user_permission(self, user):
+        if user.is_authenticated():
+            priv = self.user_privilege(user)
+            labels = ['Unknown', 'Owner', 'Edit', 'View', 'None']
+            permission = labels[priv]
+
+        if permission == "None":
+            if self.published or self.discoverable or self.public:
+                permission = "Open Access"
+
+        return permission

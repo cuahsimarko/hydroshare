@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, unicode_literals
 from future.builtins import int
 
 from django.utils.html import format_html
+from django.contrib.auth.models import User
 
 from mezzanine import template
 
@@ -9,33 +10,21 @@ from hs_core.hydroshare.utils import get_resource_by_shortkey
 
 from hs_core.search_indexes import normalize_name
 
-
 register = template.Library()
 
 
 @register.filter
-def user_permission(content, arg):
-    user_pk = arg
-    permission = "None"
+def user_permission(content, user_pk):
     res_obj = content.get_content_model()
-    if res_obj.raccess.owners.filter(pk=user_pk).exists():
-        permission = "Owner"
-    elif res_obj.raccess.edit_users.filter(pk=user_pk).exists():
-        permission = "Edit"
-    elif res_obj.raccess.view_users.filter(pk=user_pk).exists():
-        permission = "View"
+    user_obj = User.objects.get(pk=user_pk)
 
-    if permission == "None":
-        if res_obj.raccess.published or res_obj.raccess.discoverable or res_obj.raccess.public:
-            permission = "Open Access"
-    return permission
+    return res_obj.raccess.user_permission(user_obj)
 
 
 @register.filter
 def user_resource_labels(resource, user):
     # get a list of labels associated with a specified resource by a given user
-    if resource.has_labels:
-        return resource.rlabels.get_labels(user)
+    return resource.rlabels.get_labels(user)
     return []
 
 
@@ -49,6 +38,7 @@ def app_on_open_with_list(content, arg):
 
     user_obj = arg
     res_obj = content
+    # TODO: COUCH: This does the labels query a second (redundant) time!
     result = res_obj.rlabels.is_open_with_app(user_obj)
     return result
 

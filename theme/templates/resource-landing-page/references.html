@@ -210,7 +210,7 @@ Click this button to add a relationship to another resource, external website, o
             {% for res in belongs_to_collections %}
                 <tr id="{{ res.short_id }}">
                     <td>
-                        {% if res|user_permission:request.user.pk|lower == "none" %}
+                        {% if user_permission|lower == "none" %}
                             <strong>{{ res.metadata.title }}</strong>
                         {% else %}
                             <strong><a href="{{ res.get_absolute_url }}"
@@ -253,12 +253,12 @@ Click this button to add a relationship to another resource, external website, o
                         {% endif %}
                     </td>
                     <td>
-                        {% if res|user_permission:request.user.pk|lower == "none" %}
-                            <strong class="label-private">{{ res|user_permission:request.user.pk }}</strong>
-                        {% elif res|user_permission:request.user.pk|lower == "open access" %}
-                            <strong class="label-public">{{ res|user_permission:request.user.pk }}</strong>
+                        {% if user_permission|lower == "none" %}
+                            <strong class="label-private">{{ user_permission }}</strong>
+                        {% elif user_permission|lower == "open access" %}
+                            <strong class="label-public">{{ user_permission }}</strong>
                         {% else %}
-                            {{ res|user_permission:request.user.pk }}
+                            {{ user_permission }}
                         {% endif %}
                     </td>
                 </tr>
