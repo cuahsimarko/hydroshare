@@ -230,7 +230,7 @@ def get_access_object(user, user_type, user_access):
 
 
 def page_permissions_page_processor(request, page):
-    """Return a dict describing permissions for current user."""
+    """Return a dict describing permissions for current user and resource."""
     from hs_access_control.models.privilege import PrivilegeCodes
 
     cm = page.get_content_model()
@@ -239,13 +239,7 @@ def page_permissions_page_processor(request, page):
     if request.user.is_authenticated():
         if request.user.uaccess.can_change_resource_flags(cm):
             can_change_resource_flags = True
-
-        if cm.raccess.owners.filter(pk=request.user.pk).exists():
-            self_access_level = 'owner'
-        elif cm.raccess.edit_users.filter(pk=request.user.pk).exists():
-            self_access_level = 'edit'
-        elif cm.raccess.view_users.filter(pk=request.user.pk).exists():
-            self_access_level = 'view'
+        self_access_level = cm.raccess.user_permission(request.user).lower()
 
     owners = cm.raccess.owners.all()
     editors = cm.raccess.get_users_with_explicit_access(PrivilegeCodes.CHANGE,

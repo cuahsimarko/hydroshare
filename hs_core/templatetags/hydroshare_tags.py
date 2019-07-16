@@ -11,6 +11,24 @@ from hs_core.hydroshare.utils import get_resource_by_shortkey
 from hs_core.search_indexes import normalize_name
 
 register = template.Library()
+timer_start_time = 0.0
+
+
+@register.simple_tag()
+def timer_start():
+    import time
+    global timer_start_time
+    timer_start_time = time.time()
+
+
+@register.simple_tag()
+def timer_elapsed():
+    import time
+    global timer_start_time
+    newtime = time.time()
+    elapsed = newtime - timer_start_time
+    timer_start_time = newtime
+    return elapsed
 
 
 @register.filter
