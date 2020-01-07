@@ -101,10 +101,10 @@ else
   REBUILD_IMAGE=
 fi
 
-DOCKER_COMPOSER_YAML_FILE='hack.yml'
-HYDROSHARE_CONTAINERS=(nginx hydroshare data.local.org postgis users.local.org)
+DOCKER_COMPOSER_YAML_FILE='local-dev.yml'
+HYDROSHARE_CONTAINERS=(nginx hydroshare defaultworker data.local.org postgis users.local.org)
 HYDROSHARE_VOLUMES=(hydroshare_idata_iconf_vol hydroshare_idata_pgres_vol hydroshare_idata_vault_vol hydroshare_iuser_iconf_vol hydroshare_iuser_pgres_vol hydroshare_iuser_vault_vol hydroshare_postgis_data_vol hydroshare_rabbitmq_data_vol hydroshare_share_vol hydroshare_solr_data_vol hydroshare_temp_vol)
-HYDROSHARE_IMAGES=(hydroshare_nginx hydroshare_hydroshare hydroshare/hs-irods hydroshare/hs_docker_base hydroshare/hs_postgres)
+HYDROSHARE_IMAGES=(hydroshare_nginx hydroshare_defaultworker hydroshare_hydroshare hydroshare/hs-solr hydroshare/hs-irods hydroshare/hs_docker_base hydroshare/hs_postgres rabbitmq)
 
 if [ "$REMOVE_CONTAINER" == "YES" ]; then
   echo "  Removing HydroShare container..."
@@ -135,8 +135,8 @@ if [ "$REMOVE_IMAGE" == "YES" ]; then
     fi
   done
 else
-  echo "  Removing only hydroshare_nginx hydroshare_hydroshare and image..."
-  for i in hydroshare_nginx hydroshare_hydroshare; do
+  echo "  Removing only hydroshare_nginx hydroshare_hydroshare and hydroshare_defaultwoker image..."
+  for i in hydroshare_nginx hydroshare_hydroshare hydroshare_defaultworker; do
     echo -e "    Removing $i image if existed..."
     IMAGE_ID=`getImageID $i`
     if [ "$IMAGE_ID" != "" ]; then
@@ -150,10 +150,13 @@ fi
 ### Preparing
 ###############################################################################################################
 
+#grep -v CMD Dockerfile > Dockerfile-defaultworker
 #grep -v CMD Dockerfile > Dockerfile-hydroshare
 
+#cat Dockerfile-defaultworker.template >> Dockerfile-defaultworker
 #cat Dockerfile-hydroshare.template >> Dockerfile-hydroshare
 
+cp scripts/templates/init-defaultworker.template init-defaultworker
 cp scripts/templates/init-hydroshare.template    init-hydroshare
 
 sed -i $SED_EXT s/HS_SERVICE_UID/$HS_SERVICE_UID/g init-hydroshare
@@ -163,8 +166,15 @@ sed -i $SED_EXT s/HS_SSH_SERVER//g init-hydroshare
 sed -i $SED_EXT 's!HS_DJANGO_SERVER!'"python manage.py runserver 0.0.0.0:8000"'!g' init-hydroshare
 #sed -i $SED_EXT 's!HS_DJANGO_SERVER!'"/usr/bin/supervisord -n"'!g' init-hydroshare
 
+sed -i $SED_EXT s/HS_SERVICE_UID/$HS_SERVICE_UID/g init-defaultworker
+sed -i $SED_EXT s/HS_SERVICE_GID/$HS_SERVICE_GID/g init-defaultworker
+sed -i $SED_EXT s/CELERY_CONCURRENCY/$CELERY_CONCURRENCY/g init-defaultworker
+
 #sed -i $SED_EXT s/HS_SERVICE_UID/$HS_SERVICE_UID/g Dockerfile-hydroshare
 #sed -i $SED_EXT s/HS_SERVICE_GID/$HS_SERVICE_GID/g Dockerfile-hydroshare
+
+#sed -i $SED_EXT s/HS_SERVICE_UID/$HS_SERVICE_UID/g Dockerfile-defaultworker
+#sed -i $SED_EXT s/HS_SERVICE_GID/$HS_SERVICE_GID/g Dockerfile-defaultworker
 
 NGINX_CONFIG_DIRECTORY=nginx/config-files
 cp -rf $NGINX_CONFIG_DIRECTORY/nginx.conf-default.template ${NGINX_CONFIG_DIRECTORY}/nginx.conf-default
@@ -285,11 +295,11 @@ sleep 2
 
 echo
 echo '########################################################################################################################'
-echo " Restarting hydroshare container and wait them up for 10 seconds"
+echo " Restarting hydroshare and defaultworker containers and wait them up for 10 seconds"
 echo '########################################################################################################################'
 echo
 
-docker restart hydroshare
+docker restart hydroshare defaultworker
 
 COUNT=0
 SECOND=0
